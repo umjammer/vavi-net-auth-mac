@@ -19,12 +19,12 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 /**
- * Test1.
+ * MacChromeCookieTest.
  *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2023-01-23 nsano initial version <br>
  */
-class Test1 {
+class MacChromeCookieTest {
 
     @Test
     @EnabledOnOs(OS.MAC)
