@@ -16,15 +16,14 @@
 
   <profiles>
     <profile>
-      <id>local (not on CI)</id>
+      <id>release</id>
       <activation>
         <file>
           <exists>${basedir}/local.properties</exists>
         </file>
-        <property>
-          <name>env.JITPACK</name>
-          <value>!true</value>
-        </property>
+        <os>
+          <family>mac</family>
+        </os>
       </activation>
       <build>
         <plugins>
@@ -47,19 +46,7 @@
               </execution>
             </executions>
           </plugin>
-        </plugins>
-      </build>
-    </profile>
 
-    <profile>
-      <id>release</id>
-      <activation>
-        <os>
-          <family>mac</family>
-        </os>
-      </activation>
-      <build>
-        <plugins>
           <plugin>
             <groupId>pl.project13.maven</groupId>
             <artifactId>git-commit-id-plugin</artifactId>
