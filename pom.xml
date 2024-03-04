@@ -4,8 +4,141 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>vavi</groupId>
-  <artifactId>vavi-net-auth-mac</artifactId>
-  <version>0.0.1</version>
+  <artifactId>vavi-speech-rpc</artifactId>
+  <version>0.0.2-SNAPSHOT</version>
+
+  <properties>
+    <jsapi2.groupId>com.github.umjammer.jsapi</jsapi2.groupId> <!-- org.jvoicexml / com.github.umjammer.jsapi -->
+    <jsapi2.version>0.6.6</jsapi2.version>
+
+    <javapackager.name>jsapi-server</javapackager.name>
+  </properties>
+
+  <profiles>
+    <profile>
+      <id>local (not on CI)</id>
+      <activation>
+        <file>
+          <exists>${basedir}/local.properties</exists>
+        </file>
+        <property>
+          <name>env.JITPACK</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>properties-maven-plugin</artifactId>
+            <version>1.2.1</version>
+            <executions>
+              <execution>
+                <id>read-properties</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>read-project-properties</goal>
+                </goals>
+                <configuration>
+                  <files>
+                    <file>${basedir}/local.properties</file>
+                  </files>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>release</id>
+      <activation>
+        <os>
+          <family>mac</family>
+        </os>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>pl.project13.maven</groupId>
+            <artifactId>git-commit-id-plugin</artifactId>
+            <version>4.9.10</version>
+            <executions>
+              <execution>
+                <id>get-the-git-infos</id>
+                <goals>
+                  <goal>revision</goal>
+                </goals>
+                <phase>initialize</phase>
+              </execution>
+            </executions>
+            <configuration>
+              <generateGitPropertiesFile>false</generateGitPropertiesFile>
+              <includeOnlyProperties>
+                <includeOnlyProperty>^git.build.(time|version)$</includeOnlyProperty>
+              </includeOnlyProperties>
+              <commitIdGenerationMode>full</commitIdGenerationMode>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>io.github.fvarrui</groupId>
+            <artifactId>javapackager</artifactId>
+            <version>1.7.5</version>
+            <executions>
+              <execution>
+                <phase>package</phase>
+                <goals>
+                  <goal>package</goal>
+                </goals>
+                <configuration>
+                  <name>${javapackager.name}</name>
+                  <organizationName>Copyright © 2024 by vavi, All rights reserved.</organizationName>
+
+                  <mainClass>vavi.speech.rpc.jsapi2.server.Main</mainClass>
+                  <runnableJar>${project.artifactId}-${project.version}.jar</runnableJar>
+                  <generateInstaller>false</generateInstaller>
+                  <bundleJre>true</bundleJre>
+                  <jdkPath>${intel.jdk.home}</jdkPath>
+                  <jreMinVersion>17</jreMinVersion>
+
+                  <assetsDir>src/main/package</assetsDir>
+
+                  <additionalResources>
+                    <additionalResource>${project.build.outputDirectory}/logging.properties</additionalResource>
+                    <additionalResource>local.properties</additionalResource>
+                  </additionalResources>
+
+                  <vmArgs>
+                    <vmArg>-Dapple.laf.useScreenMenuBar=true</vmArg>
+                    <vmArg>-Djava.util.logging.config.file=./logging.properties</vmArg>
+                    <vmArg>-Dvavi.util.logging.VaviFormatter.extraClassMethod=org\\.slf4j\\.jul\\.JDK14LoggerAdapter#.*</vmArg>
+                  </vmArgs>
+
+                  <macConfig>
+                    <!-- true cause error -->
+                    <codesignApp>false</codesignApp>
+                    <generatePkg>false</generatePkg>
+                    <infoPlist>
+                      <additionalEntries>
+                        <![CDATA[
+                      <key>CFBundleName</key>
+                      <string>${javapackager.name}</string>
+                      <key>CFBundleShortVersionString</key>
+                      <string>${git.build.time}</string>
+                    ]]>
+                      </additionalEntries>
+                    </infoPlist>
+                  </macConfig>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 
   <build>
     <plugins>
@@ -43,7 +176,14 @@
       <dependency>
         <groupId>org.junit</groupId>
         <artifactId>junit-bom</artifactId>
-        <version>5.10.1</version>
+        <version>5.10.2</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.glassfish.jersey</groupId>
+        <artifactId>jersey-bom</artifactId>
+        <version>3.1.5</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -57,22 +197,57 @@
       <version>1.1.10</version>
     </dependency>
 
+    <!-- jspai2 -->
     <dependency>
-      <groupId>com.github.umjammer.vavi-net-auth</groupId> <!-- vavi / com.github.umjammer.vavi-net-auth -->
-      <artifactId>vavi-net-auth-common</artifactId>
-      <version>0.1.9</version>
+      <groupId>${jsapi2.groupId}</groupId>
+      <artifactId>javax.speech</artifactId>
+      <version>${jsapi2.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>com.github.umjammer</groupId>
-      <artifactId>vavi-crypto-sandbox</artifactId>
-      <version>1.0.3</version>
+      <groupId>com.github.umjammer</groupId> <!-- vavi / com.github.umjammer -->
+      <artifactId>vavi-speech2</artifactId>
+      <version>0.0.12</version>
+    </dependency>
+
+    <!-- client -->
+    <dependency>
+      <groupId>org.glassfish.jersey.core</groupId>
+      <artifactId>jersey-client</artifactId>
     </dependency>
     <dependency>
-      <groupId>org.xerial</groupId>
-      <artifactId>sqlite-jdbc</artifactId>
-      <version>3.45.0.0</version>
+      <groupId>org.glassfish.jersey.inject</groupId>
+      <artifactId>jersey-hk2</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.glassfish.jersey.media</groupId>
+      <artifactId>jersey-media-json-jackson</artifactId>
       <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>jakarta.activation</groupId>
+      <artifactId>jakarta.activation-api</artifactId>
+      <version>2.1.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.10.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.glassfish.jersey.containers</groupId>
+      <artifactId>jersey-container-jetty-http</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-jdk14</artifactId>
+      <version>2.0.11</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>2.0.11</version>
     </dependency>
 
     <dependency>
@@ -88,13 +263,6 @@
     <dependency>
       <groupId>org.junit.platform</groupId>
       <artifactId>junit-platform-commons</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
-      <version>1.7.36</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
