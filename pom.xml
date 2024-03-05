@@ -93,7 +93,8 @@
                   <assetsDir>src/main/package</assetsDir>
 
                   <additionalResources>
-                    <additionalResource>${project.build.outputDirectory}/logging.properties</additionalResource>
+                    <additionalResource>${project.build.testResources[0].directory}/logging.properties</additionalResource>
+                    <additionalResource>${project.build.testResources[0].directory}/aquestalk10.properties</additionalResource>
                     <additionalResource>local.properties</additionalResource>
                   </additionalResources>
 
@@ -194,7 +195,7 @@
     <dependency>
       <groupId>com.github.umjammer</groupId> <!-- vavi / com.github.umjammer -->
       <artifactId>vavi-speech2</artifactId>
-      <version>0.0.12</version>
+      <version>0.0.13</version>
     </dependency>
 
     <!-- client -->

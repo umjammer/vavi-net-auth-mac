@@ -27,5 +27,5 @@ RPC client/server for JSR-113 JSAPI2
 
 ## TODO
 
- * .app doesn't start by click on finder (calling stub directly from a terminal is succeeded)
+ * starting .app is unbelievably slow 
  * server side, speech engine spi pluggable, specifiable

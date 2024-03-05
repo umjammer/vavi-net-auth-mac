@@ -20,7 +20,6 @@ import javax.speech.synthesis.Voice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
-import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import vavi.speech.rpc.jsapi2.client.RpcClient;
 import vavi.util.Debug;
 import vavi.util.properties.annotation.Property;
@@ -110,7 +109,7 @@ Debug.println(voice);
             synthesizer.speak(line + "。", System.err::println);
         }
 
-        synthesizer.waitEngineState(Synthesizer.QUEUE_EMPTY);
+        synthesizer.waitEngineState(Synthesizer.QUEUE_EMPTY); // TODO long text cause jersey timeout default 30000ms?
         synthesizer.deallocate();
     }
 }
