@@ -1,25 +1,31 @@
-[![Release](https://jitpack.io/v/umjammer/vavi-net-auth-mac.svg)](https://jitpack.io/#umjammer/vavi-net-auth-mac)
-[![Java CI](https://github.com/umjammer/vavi-net-auth-mac/actions/workflows/maven.yml/badge.svg)](https://github.com/umjammer/vavi-net-auth-mac/actions/workflows/maven.yml)
-[![CodeQL](https://github.com/umjammer/vavi-net-auth-mac/actions/workflows/codeql.yml/badge.svg)](https://github.com/umjammer/vavi-net-auth-mac/actions/workflows/codeql-analysis.yml)
+[![Release](https://jitpack.io/v/umjammer/vavi-speech-rpc.svg)](https://jitpack.io/#umjammer/vavi-speech-rpc)
+[![Java CI](https://github.com/umjammer/vavi-speech-rpc/actions/workflows/maven.yml/badge.svg)](https://github.com/umjammer/vavi-speech-rpc/actions/workflows/maven.yml)
+[![CodeQL](https://github.com/umjammer/vavi-speech-rpc/actions/workflows/codeql.yml/badge.svg)](https://github.com/umjammer/vavi-speech-rpc/actions/workflows/codeql.yml)
 ![Java](https://img.shields.io/badge/Java-17-b07219)
 
-# vavi-net-auth-mac
+# vavi-speech-rpc
 
- mac chrome cookie
+RPC client/server for JSR-113 JSAPI2
+
+### sample
+
+ * make AquesTalk10 work on arm64 mac. run rcp server on Rosetta2, then call rpc speech synthesizer.
 
 ## Install
 
- * [maven](https://jitpack.io/#umjammer/vavi-net-auth-mac)
+ * [maven](https://jitpack.io/#umjammer/vavi-speech-rpc)
 
 ## Usage
 
- * [vavi-speech-sandbox](https://jitpack.io/#umjammer/vavi-speech-sandbox)
+ [sample](src/test/java/vavi/speech/rpc/jsapi2/TestCase.java) 
 
 ## References
 
- * [macos](https://gist.github.com/kosh04/36cf6023fb75b516451ce933b9db2207)
- * [windows](https://stackoverflow.com/questions/60230456/dpapi-fails-with-cryptographicexception-when-trying-to-decrypt-chrome-cookies/60611673#60611673)
+ * [jersey post server](https://stackoverflow.com/questions/29183274/jax-rs-jersey-rest-webservice-posting-a-array-generated-by-input-from-user)
+ * [jersey post client](https://qiita.com/noobar/items/a96e07e441241b1e0215)
+ * [jersey DI](https://qiita.com/atti/items/3f6f43c5168323344427)
 
 ## TODO
 
- * gemini
+ * starting .app is unbelievably slow 
+ * server side, speech engine spi pluggable, specifiable
