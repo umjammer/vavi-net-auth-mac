@@ -5,11 +5,11 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-speech-rpc</artifactId>
-  <version>0.0.2</version>
+  <version>0.0.3</version>
 
   <properties>
-    <jsapi2.groupId>com.github.umjammer.jsapi</jsapi2.groupId> <!-- org.jvoicexml / com.github.umjammer.jsapi -->
-    <jsapi2.version>0.6.6</jsapi2.version>
+    <jsapi2.groupId>com.github.umjammer.jsapi2</jsapi2.groupId> <!-- org.jvoicexml / com.github.umjammer.jsapi2 -->
+    <jsapi2.version>0.6.9</jsapi2.version>
 
     <javapackager.name>jsapi-server</javapackager.name>
   </properties>
@@ -95,13 +95,17 @@
                   <additionalResources>
                     <additionalResource>${project.build.testResources[0].directory}/logging.properties</additionalResource>
                     <additionalResource>${project.build.testResources[0].directory}/aquestalk10.properties</additionalResource>
+                    <additionalResource>${project.build.testResources[0].directory}/htsvoice.csv</additionalResource>
                     <additionalResource>local.properties</additionalResource>
                   </additionalResources>
 
                   <vmArgs>
+                    <vmArg>-ea</vmArg>
                     <vmArg>-Dapple.laf.useScreenMenuBar=true</vmArg>
                     <vmArg>-Djava.util.logging.config.file=./logging.properties</vmArg>
-                    <vmArg>-Dvavi.util.logging.VaviFormatter.extraClassMethod=org\\.slf4j\\.jul\\.JDK14LoggerAdapter#.*</vmArg>
+                    <vmArg>-Dhtsvoice.dir=${user.home}/src/resources/htsvoice-tohoku-f01</vmArg>
+                    <vmArg>-Dgoogle.credential=${basedir}/tmp/google-app-credentials.json</vmArg>
+                    <vmArg>-Dvavi.util.logging.VaviFormatter.extraClassMethod=\\\(org\.slf4j\..*#.*\\\|sun\.util\.logging\.internal\.LoggingProviderImpl.*#log\\\)</vmArg> <!-- needs escape for shell -->
                   </vmArgs>
 
                   <macConfig>
@@ -145,6 +149,7 @@
         <configuration>
           <argLine>
             -Djava.util.logging.config.file=${project.build.testOutputDirectory}/logging.properties
+            -Dvavi.util.logging.VaviFormatter.extraClassMethod=(org\.slf4j\.jul\.JDK14LoggerAdapter#innerNormalizedLoggingCallHandler|sun\.util\.logging\.internal\.LoggingProviderImpl.*#log)
           </argLine>
           <trimStackTrace>false</trimStackTrace>
         </configuration>
@@ -195,7 +200,7 @@
     <dependency>
       <groupId>com.github.umjammer</groupId> <!-- vavi / com.github.umjammer -->
       <artifactId>vavi-speech2</artifactId>
-      <version>0.0.13</version>
+      <version>0.0.14</version>
     </dependency>
 
     <!-- client -->
@@ -223,19 +228,22 @@
       <version>2.10.1</version>
     </dependency>
 
+    <!-- server -->
     <dependency>
       <groupId>org.glassfish.jersey.containers</groupId>
       <artifactId>jersey-container-jetty-http</artifactId>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-jdk14</artifactId>
+      <artifactId>slf4j-api</artifactId>
       <version>2.0.11</version>
+      <scope>runtime</scope>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
+      <artifactId>slf4j-jdk14</artifactId>
       <version>2.0.11</version>
+      <scope>runtime</scope>
     </dependency>
 
     <dependency>

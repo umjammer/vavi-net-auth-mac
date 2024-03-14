@@ -5,6 +5,8 @@
 
 # vavi-speech-rpc
 
+<img alt="logo" src="https://github.com/umjammer/vavi-speech-rpc/assets/493908/347e3f8e-4fbf-469d-aa16-c09b8b3962f0" width="200" />
+
 RPC client/server for JSR-113 JSAPI2
 
 ### sample
@@ -27,5 +29,6 @@ RPC client/server for JSR-113 JSAPI2
 
 ## TODO
 
- * starting .app is unbelievably slow 
+ * ~~starting .app is unbelievably slow~~ icon on dock bouncing long time, but server works. 
  * server side, speech engine spi pluggable, specifiable
+ * bundle AquesTalk10 frameworks

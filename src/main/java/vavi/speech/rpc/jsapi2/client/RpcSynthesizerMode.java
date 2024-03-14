@@ -34,7 +34,8 @@ public final class RpcSynthesizerMode extends SynthesizerMode implements EngineF
      * Constructs a new object.
      */
     public RpcSynthesizerMode() {
-        super();
+        super("RPC", null,
+                null, null, null, null);
     }
 
     /**
@@ -43,7 +44,8 @@ public final class RpcSynthesizerMode extends SynthesizerMode implements EngineF
      * @param locale the locale associated with this mode
      */
     public RpcSynthesizerMode(SpeechLocale locale) {
-        super(locale);
+        super("RPC", null, null, null, null,
+                new Voice[] {new Voice(locale, null, Voice.GENDER_DONT_CARE, Voice.AGE_DONT_CARE, Voice.VARIANT_DONT_CARE)});
     }
 
     /**

@@ -21,9 +21,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.EnabledIf;
 import vavi.speech.rpc.jsapi2.client.RpcClient;
+import vavi.speech.rpc.jsapi2.client.RpcSynthesizer;
+import vavi.speech.rpc.jsapi2.client.RpcSynthesizerMode;
 import vavi.util.Debug;
 import vavi.util.properties.annotation.Property;
 import vavi.util.properties.annotation.PropsEntity;
+
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 
 
 /**
@@ -89,9 +93,8 @@ Debug.println(sp);
 
     /** */
     void speak(String text) throws Exception {
-        EngineManager.registerEngineListFactory(vavi.speech.rpc.jsapi2.client.RpcEngineListFactory.class.getName());
-
-        Synthesizer synthesizer = (Synthesizer) EngineManager.createEngine(SynthesizerMode.DEFAULT);
+        Synthesizer synthesizer = (Synthesizer) EngineManager.createEngine(new RpcSynthesizerMode());
+        assertInstanceOf(RpcSynthesizer.class, synthesizer);
         synthesizer.addSynthesizerListener(System.err::println);
         synthesizer.allocate();
         synthesizer.waitEngineState(Engine.ALLOCATED);

@@ -25,7 +25,7 @@ public class RpcEngineListFactory implements EngineListFactory {
 
     @Override
     public EngineList createEngineList(EngineMode require) {
-        if (require instanceof SynthesizerMode synthesizerMode) {
+        if (require instanceof RpcSynthesizerMode synthesizerMode) {
             RpcClient rpcClient = new RpcClient();
             List<Voice> allVoices = List.of(rpcClient.getVoices());
             List<Voice> voices = new ArrayList<>();

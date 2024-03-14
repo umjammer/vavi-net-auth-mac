@@ -64,15 +64,15 @@ public class Jsapi2Service implements Closeable {
     public static Synthesizer getSynthesizer() {
         if (_synthesizer == null) {
             try {
-                EngineManager.registerEngineListFactory(vavi.speech.aquestalk10.jsapi2.AquesTalk10EngineListFactory.class.getName());
-
-                _synthesizer = (Synthesizer) EngineManager.createEngine(SynthesizerMode.DEFAULT);
+                _synthesizer = (Synthesizer) EngineManager.createEngine(new vavi.speech.aquestalk10.jsapi2.AquesTalk10SynthesizerMode());
+                assert _synthesizer instanceof vavi.speech.aquestalk10.jsapi2.AquesTalk10Synthesizer;
                 _synthesizer.addSynthesizerListener(System.err::println);
                 _synthesizer.allocate();
                 _synthesizer.waitEngineState(Engine.ALLOCATED);
                 _synthesizer.resume();
                 _synthesizer.waitEngineState(Synthesizer.RESUMED);
-            } catch (EngineException | InterruptedException | AudioException e) {
+            } catch (Exception e) {
+                logger.log(Level.ERROR, e.getMessage(), e);
                 throw new IllegalStateException(e);
             }
         }
