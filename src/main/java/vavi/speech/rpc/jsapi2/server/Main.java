@@ -6,7 +6,6 @@
 
 package vavi.speech.rpc.jsapi2.server;
 
-
 import java.lang.System.Logger;
 import java.lang.System.Logger.Level;
 import java.net.URI;
@@ -34,6 +33,9 @@ public class Main {
      * @param args none
      */
     public static void main(String[] args) throws Exception {
+        System.setProperty("apple.awt.UIElement", "true"); // eliminate dock icon
+logger.log(Level.DEBUG, "GOOGLE_APPLICATION_CREDENTIALS: " + System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
+
         Server server = null;
         try {
             ResourceConfig config = new ResourceConfig()

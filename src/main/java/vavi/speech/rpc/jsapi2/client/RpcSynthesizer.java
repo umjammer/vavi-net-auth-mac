@@ -79,7 +79,7 @@ public final class RpcSynthesizer implements Synthesizer {
 
     @Override
     public boolean cancel() throws EngineStateException {
-        return rpcClient.cancel(-1); // TODO
+        return rpcClient.cancel(0);
     }
 
     @Override
@@ -104,7 +104,7 @@ public final class RpcSynthesizer implements Synthesizer {
 
     @Override
     public void allocate() throws AudioException, EngineException, EngineStateException, SecurityException {
-        rpcClient.allocate(-1); // TODO
+        rpcClient.allocate(0);
     }
 
     @Override
@@ -139,7 +139,7 @@ public final class RpcSynthesizer implements Synthesizer {
 
     @Override
     public long waitEngineState(long state) throws InterruptedException, IllegalArgumentException, IllegalStateException {
-        return rpcClient.waitEngineState(state, -1); // TODO
+        return rpcClient.waitEngineState(state, 0);
     }
 
     @Override

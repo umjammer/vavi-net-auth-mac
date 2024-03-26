@@ -55,28 +55,36 @@ public class Jsapi2Service implements Closeable {
     private static final Gson gson = new GsonBuilder().create();
 
     @Inject
-    private Synthesizer synthesizer;
+    private Synthesizer synthesizer; // this class is stateless, so it's needed to set synthesizer every access
+
+    // TODO should not be static but di container
 
     /** for DI */
     private static Synthesizer _synthesizer;
 
     /** for DI */
     public static Synthesizer getSynthesizer() {
-        if (_synthesizer == null) {
-            try {
-                _synthesizer = (Synthesizer) EngineManager.createEngine(new vavi.speech.aquestalk10.jsapi2.AquesTalk10SynthesizerMode());
-                assert _synthesizer instanceof vavi.speech.aquestalk10.jsapi2.AquesTalk10Synthesizer;
-                _synthesizer.addSynthesizerListener(System.err::println);
-                _synthesizer.allocate();
-                _synthesizer.waitEngineState(Engine.ALLOCATED);
-                _synthesizer.resume();
-                _synthesizer.waitEngineState(Synthesizer.RESUMED);
-            } catch (Exception e) {
-                logger.log(Level.ERROR, e.getMessage(), e);
-                throw new IllegalStateException(e);
-            }
-        }
         return _synthesizer;
+    }
+
+    /** for DI */
+    public static void createSynthesizer(String modeName) {
+logger.log(Level.DEBUG, "modeName: " + modeName);
+        try {
+            @SuppressWarnings("unchecked")
+            Class<SynthesizerMode> clazz = (Class<SynthesizerMode>) Class.forName(modeName);
+logger.log(Level.DEBUG, "clazz: " + clazz.getName());
+            _synthesizer = (Synthesizer) EngineManager.createEngine(clazz.getDeclaredConstructor().newInstance());
+logger.log(Level.DEBUG, "synthesizer: " + _synthesizer.getClass().getName());
+            _synthesizer.addSynthesizerListener(System.err::println);
+            _synthesizer.allocate();
+            _synthesizer.waitEngineState(Engine.ALLOCATED);
+            _synthesizer.resume();
+            _synthesizer.waitEngineState(Synthesizer.RESUMED);
+        } catch (Exception e) {
+logger.log(Level.ERROR, e.getMessage(), e);
+            throw new IllegalStateException(e);
+        }
     }
 
     @Override
@@ -92,9 +100,10 @@ public class Jsapi2Service implements Closeable {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("getVoices")
-    public String getVoices() {
-logger.log(Level.DEBUG, "getVoices");
-        Voice[] voices = ((SynthesizerMode) synthesizer.getEngineMode()).getVoices();
+    public String getVoices(@QueryParam("modeName") String modeName) {
+logger.log(Level.DEBUG, "getVoices: " + modeName);
+        createSynthesizer(modeName);
+        Voice[] voices = ((SynthesizerMode) getSynthesizer().getEngineMode()).getVoices();
         VoiceDTO[] dtos = Arrays.stream(voices).map(VoiceDTO::new).toArray(VoiceDTO[]::new);
         return gson.toJson(dtos);
     }
