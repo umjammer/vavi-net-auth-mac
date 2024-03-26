@@ -41,6 +41,8 @@ import static java.lang.System.getLogger;
 /**
  * RpcClient.
  *
+ * TODO make this interface
+ *
  * @author <a href="mailto:umjammer@gmail.com">Naohide Sano</a> (nsano)
  * @version 0.00 2023-09-13 nsano initial version <br>
  */
@@ -119,8 +121,9 @@ public class RpcClient implements Closeable {
     }
 
     /** */
-    public Voice[] getVoices() {
+    public Voice[] getVoices(String modeName) {
         String json = target.path("/jsapi2/getVoices")
+                .queryParam("modeName", modeName)
                 .request()
                 .get(String.class);
         VoiceDTO[] voices = gson.fromJson(json, VoiceDTO[].class);

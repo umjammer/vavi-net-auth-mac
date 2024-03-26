@@ -58,7 +58,7 @@ class TestCase {
     void test01() throws Exception {
         RpcClient c = new RpcClient();
 Debug.println("to getVoices");
-        Voice[] voices = c.getVoices();
+        Voice[] voices = c.getVoices("vavi.speech.aquestalk10.jsapi2.AquesTalk10SynthesizerMode");
 Arrays.stream(voices).forEach(System.err::println);
         c.close();
     }
@@ -93,7 +93,11 @@ Debug.println(sp);
 
     /** */
     void speak(String text) throws Exception {
-        Synthesizer synthesizer = (Synthesizer) EngineManager.createEngine(new RpcSynthesizerMode());
+        String modeName = "vavi.speech.aquestalk10.jsapi2.AquesTalk10SynthesizerMode";
+//        String modeName = "vavi.speech.googlecloud.jsapi2.GoogleCloudTextToSpeechSynthesizerMode"; // TODO env and not work
+//        String modeName = "vavi.speech.voicevox.jsapi2.VoiceVoxSynthesizerMode";
+//        String modeName = "vavi.speech.gyutan.jsapi2.GyutanSynthesizerMode"; // TODO not work
+        Synthesizer synthesizer = (Synthesizer) EngineManager.createEngine(new RpcSynthesizerMode(modeName));
         assertInstanceOf(RpcSynthesizer.class, synthesizer);
         synthesizer.addSynthesizerListener(System.err::println);
         synthesizer.allocate();
@@ -102,6 +106,8 @@ Debug.println(sp);
         synthesizer.waitEngineState(Synthesizer.RESUMED);
 
         String voiceName = "F1";
+//        String voiceName = "ずんだもん(ノーマル)";
+//        String voiceName = "ja-JP-Wavenet-B";
         Voice voice = Arrays.stream(((SynthesizerMode) synthesizer.getEngineMode()).getVoices()).filter(v -> v.getName().equals(voiceName)).findFirst().get();
 Debug.println(voice);
         synthesizer.getSynthesizerProperties().setVoice(voice);

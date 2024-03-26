@@ -101,6 +101,8 @@
 
                   <vmArgs>
                     <vmArg>-ea</vmArg>
+                    <vmArg>--add-opens</vmArg>
+                    <vmArg>java.base/java.lang=ALL-UNNAMED</vmArg>
                     <vmArg>-Dapple.laf.useScreenMenuBar=true</vmArg>
                     <vmArg>-Djava.util.logging.config.file=./logging.properties</vmArg>
                     <vmArg>-Dhtsvoice.dir=${user.home}/src/resources/htsvoice-tohoku-f01</vmArg>
@@ -119,6 +121,11 @@
                       <string>${javapackager.name}</string>
                       <key>CFBundleShortVersionString</key>
                       <string>${git.build.time}</string>
+                      <key>LSEnvironment</key>
+                      <dict>
+                        <key>GOOGLE_APPLICATION_CREDENTIALS</key>
+                        <string>${basedir}/tmp/google-app-credentials.json</string>
+                      </dict>
                     ]]>
                       </additionalEntries>
                     </infoPlist>

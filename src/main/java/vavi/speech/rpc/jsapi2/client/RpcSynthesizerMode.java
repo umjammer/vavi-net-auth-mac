@@ -32,19 +32,21 @@ public final class RpcSynthesizerMode extends SynthesizerMode implements EngineF
 
     /**
      * Constructs a new object.
+     * @param modeName used as remote voice engine list factory class name
      */
-    public RpcSynthesizerMode() {
-        super("RPC", null,
+    public RpcSynthesizerMode(String modeName) {
+        super("RPC", modeName,
                 null, null, null, null);
     }
 
     /**
      * Constructs a new object.
      *
+     * @param modeName used as remote voice engine list factory class name
      * @param locale the locale associated with this mode
      */
-    public RpcSynthesizerMode(SpeechLocale locale) {
-        super("RPC", null, null, null, null,
+    public RpcSynthesizerMode(String modeName, SpeechLocale locale) {
+        super("RPC", modeName, null, null, null,
                 new Voice[] {new Voice(locale, null, Voice.GENDER_DONT_CARE, Voice.AGE_DONT_CARE, Voice.VARIANT_DONT_CARE)});
     }
 
@@ -54,7 +56,7 @@ public final class RpcSynthesizerMode extends SynthesizerMode implements EngineF
      * RPC synthesizer does not support ssml
      *
      * @param engineName the name of the engine
-     * @param modeName the name of the mode
+     * @param modeName used as remote voice engine list factory class name
      */
     public RpcSynthesizerMode(String engineName,
                               String modeName,

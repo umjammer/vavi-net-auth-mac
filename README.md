@@ -30,5 +30,9 @@ RPC client/server for JSR-113 JSAPI2
 ## TODO
 
  * ~~starting .app is unbelievably slow~~ icon on dock bouncing long time, but server works. 
- * server side, speech engine spi pluggable, specifiable
+ * ~~server side, speech engine spi pluggable, specifiable~~
+   * ~~aquestalk~~ done
+   * ~~voicevox~~ done
+   * google ... doesn't work, how to set env for javapackager
+   * gyutan ... doesn't work
  * bundle AquesTalk10 frameworks
