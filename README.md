@@ -36,3 +36,7 @@ RPC client/server for JSR-113 JSAPI2
    * google ... doesn't work, how to set env for javapackager
    * gyutan ... doesn't work
  * bundle AquesTalk10 frameworks
+ * websocket version
+
+---
+<sub>image by <a href="https://www.ac-illust.com/main/detail.php?id=700743">ののせ あずき</a></sub>
