@@ -5,7 +5,7 @@
 
   <groupId>vavi</groupId>
   <artifactId>vavi-speech-rpc</artifactId>
-  <version>0.0.3</version>
+  <version>0.0.4</version>
 
   <properties>
     <jsapi2.groupId>com.github.umjammer.jsapi2</jsapi2.groupId> <!-- org.jvoicexml / com.github.umjammer.jsapi2 -->
@@ -126,7 +126,7 @@
                         <key>GOOGLE_APPLICATION_CREDENTIALS</key>
                         <string>${basedir}/tmp/google-app-credentials.json</string>
                       </dict>
-                    ]]>
+                      ]]>
                       </additionalEntries>
                     </infoPlist>
                   </macConfig>
